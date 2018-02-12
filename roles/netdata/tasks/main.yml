@@ -1,0 +1,44 @@
+---
+
+- name: Install pre-requisites packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - autoconf
+    - autoconf-archive
+    - autogen
+    - automake
+    - gcc
+    - git
+    - libmnl-dev
+    - make
+    - pkg-config
+    - uuid-dev
+    - zlib1g-dev
+
+- name: Clone netdata repo
+  git:
+    clone: yes
+    repo: https://github.com/firehol/netdata.git
+    dest: /tmp/netdata
+
+- name: Install netdata
+  shell: cd /tmp/netdata/ && ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
+
+- name: Delete netdata repo
+  file:
+    path: /tmp/netdata
+    state: absent
+
+- name: Copy the config file
+  template:
+    src: "etc/netdata/netdata.conf.j2"
+    dest: "/etc/netdata/netdata.conf"
+    owner: root
+    group: root
+    mode: 0644
+  notify:
+    - Restart netdata
+  tags:
+    - config
