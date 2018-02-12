@@ -55,7 +55,7 @@ To deploy the Netdata instance, you just have to run the Ansible playbook netdat
 ansible-playbook netdata.yml
 ```
 
-If all run like it is expected, you should access the Netdata web interface : http://10.0.0.71/
+If all run like it is expected, you should access the Netdata web interface : http://10.0.0.71:19999/
 
 #### Destroy
 
