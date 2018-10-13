@@ -1,37 +1,29 @@
 ---
 
-- name: Install pre-requisites packages
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - autoconf
-    - autoconf-archive
-    - autogen
-    - automake
-    - gcc
-    - git
-    - libmnl-dev
-    - make
-    - pkg-config
-    - uuid-dev
-    - zlib1g-dev
+- name: NETDATA | Manage Debian environment
+  import_tasks: debian.yml
+  when: ansible_os_family == 'Debian'
 
-- name: Clone netdata repo
+- name: NETDATA | Manage Redhat environment
+  import_tasks: redhat.yml
+  when: ansible_os_family == 'RedHat'
+
+- name: NETDATA | Clone Git repository
   git:
     clone: yes
-    repo: https://github.com/firehol/netdata.git
-    dest: /tmp/netdata
+    repo: "{{ netdata_source_url }}"
+    dest: "{{ netdata_source_path }}"
+    version: "{{ netdata_version }}"
 
-- name: Install netdata
-  shell: cd /tmp/netdata/ && ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
+- name: NETDATA | Install netdata
+  shell: ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
+  args:
+    chdir: "{{ netdata_source_path }}"
+    creates: /etc/netdata
+  notify:
+    - Restart netdata
 
-- name: Delete netdata repo
-  file:
-    path: /tmp/netdata
-    state: absent
-
-- name: Copy the config file
+- name: NETDATA | Configuration
   template:
     src: "etc/netdata/netdata.conf.j2"
     dest: "/etc/netdata/netdata.conf"
@@ -40,5 +32,6 @@
     mode: 0644
   notify:
     - Restart netdata
+  when: ansible_os_family == 'Debian'
   tags:
-    - config
+    - update-netdata-config

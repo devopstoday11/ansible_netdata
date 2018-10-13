@@ -1,6 +1,6 @@
 ---
 
-- hosts: all
+- hosts: netdata
   remote_user: vagrant
   become: yes
   roles:

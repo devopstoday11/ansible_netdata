@@ -50,14 +50,6 @@ netdata01                   running (virtualbox)
 
 #### Deployment
 
-This playbook has some dependencies to other roles that must be downloaded before executing the playbook :
-
-```bash
-$ ansible-galaxy install -r requirements.yml
-```
-
-This command should download the Epel role from Ansible Galaxy to the local role path.
-
 To deploy the Netdata instance, you just have to run the Ansible playbook netdata.yml with this command :
 
 ```bash

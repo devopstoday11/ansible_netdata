@@ -1,0 +1,15 @@
+---
+
+###
+# NETDATA
+###
+
+# Version
+netdata_version: v1.10.0
+
+# Sources
+netdata_source_url: https://github.com/netdata/netdata
+netdata_source_path: /opt/netdata
+
+# User
+netdata_user: netdata

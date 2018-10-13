@@ -1,0 +1,18 @@
+---
+
+- name: NETDATA DEBIAN | Install pre-requisites packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - autoconf
+    - autoconf-archive
+    - autogen
+    - automake
+    - gcc
+    - git
+    - libmnl-dev
+    - make
+    - pkg-config
+    - uuid-dev
+    - zlib1g-dev
