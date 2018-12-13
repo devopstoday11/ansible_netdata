@@ -9,7 +9,7 @@ SUPPORTED_OS = {
 }
 
 # Vagrant instance management
-$os                     = "ubuntu"
+$os                     = "centos"
 $num_instances          = 1
 $instance_name_prefix   = "netdata"
 $vm_memory              = 2048

@@ -34,3 +34,8 @@ def test_service(host):
     s = host.service('netdata')
     assert s.is_enabled
     assert s.is_running
+
+
+def test_sockets_open(host):
+    s = host.socket("tcp://127.0.0.1:19999")
+    assert s.is_listening

@@ -21,11 +21,18 @@ platforms:
     privileged: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - name: debian
+    image: maint/debian-systemd
+    command: /sbin/init
+    privileged: true
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
 provisioner:
   name: ansible
   lint:
     name: ansible-lint
   playbooks:
+    prepare: ${MOLECULE_PLAYBOOK:-prepare.yml}
     converge: ${MOLECULE_PLAYBOOK:-playbook.yml}
 scenario:
   name: default
