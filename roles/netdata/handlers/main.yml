@@ -4,4 +4,4 @@
   systemd:
     name: netdata
     state: restarted
-    enabled: yes
+    enabled: true

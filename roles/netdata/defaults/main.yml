@@ -5,7 +5,7 @@
 ###
 
 # Version
-netdata_version: v1.10.0
+netdata_version: v1.11.1
 
 # Sources
 netdata_source_url: https://github.com/netdata/netdata
@@ -13,3 +13,6 @@ netdata_source_path: /opt/netdata
 
 # User
 netdata_user: netdata
+
+# Socket
+netdata_bind_socket: "{{ hostvars[inventory_hostname].ip | default('127.0.0.1') }}"

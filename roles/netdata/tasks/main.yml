@@ -10,13 +10,15 @@
 
 - name: NETDATA | Clone Git repository
   git:
-    clone: yes
+    clone: true
+    update: false
     repo: "{{ netdata_source_url }}"
     dest: "{{ netdata_source_path }}"
     version: "{{ netdata_version }}"
+    force: true
 
 - name: NETDATA | Install netdata
-  shell: ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
+  command: ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
   args:
     chdir: "{{ netdata_source_path }}"
     creates: /etc/netdata
@@ -28,10 +30,7 @@
     src: "etc/netdata/netdata.conf.j2"
     dest: "/etc/netdata/netdata.conf"
     owner: root
-    group: root
+    group: netdata
     mode: 0644
   notify:
     - Restart netdata
-  when: ansible_os_family == 'Debian'
-  tags:
-    - update-netdata-config

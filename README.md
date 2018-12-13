@@ -1,6 +1,6 @@
 # Ansible : Playbook Netdata
 
-The aim of this project is to deploy a simple Netdata instance on Vagrant.
+The aim of this project is to deploy Netdata on Vagrant instances.
 
 ## Getting Started
 
@@ -10,12 +10,13 @@ These instructions will get you a copy of the project up and running on your loc
 
 What things you need to run this Ansible playbook :
 
-* [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your computer
-* Update the Vagrant file based on your computer (CPU, memory), if needed
-* You must have download the ubuntu Xenial64 vagrant box :
+*   [Vagrant](https://www.vagrantup.com/docs/installation/) must be installed on your computer
+*   Update the Vagrant file based on your computer (CPU, memory), if needed
+*   Update the operating system to deploy in the Vagrant file (default: Ubuntu)
+*   Download the Ansible requirements:
 
 ```bash
-$ vagrant box add https://app.vagrantup.com/ubuntu/boxes/xenial64
+$ ansible-galaxy install -r requirements.yml
 ```
 
 ### Usage
@@ -24,21 +25,15 @@ A good point with Vagrant is that you can create, update and destroy all archite
 
 Be aware that you need to be in the Vagrant directory to be able to run the commands.
 
-#### Build Environment
+#### Deployment
 
-Vagrant needs to init the project to run and build it :
+To deploy Netdata on Vagrant instances, just run this command :
 
 ```bash
 $ vagrant up
 ```
 
-After build, you can check which virtual machine Vagrant has created :
-
-```bash
-$ vagrant status
-```
-
-If all run like it is expected, you should see something like this :
+If everything run as expected, you should be able to list the virtual machine created :
 
 ```bash
 $ vagrant status
@@ -46,14 +41,6 @@ $ vagrant status
 Current machine states:
 
 netdata01                   running (virtualbox)
-```
-
-#### Deployment
-
-To deploy the Netdata instance, you just have to run the Ansible playbook netdata.yml with this command :
-
-```bash
-$ ansible-playbook netdata.yml
 ```
 
 If everything run as expected, you should access the Netdata web interface : http://10.0.0.71:19999/
@@ -66,6 +53,38 @@ To destroy the Vagrant resources created, just run this command :
 $ vagrant destroy
 ```
 
+### How-To
+
+This section list some simple command to use and manage the playbook and the Vagrant hosts.
+
+#### Update with Ansible
+
+To update the Netdata configuration with Ansible, you just have to run the Ansible playbook netdata.yml with this command :
+
+```bash
+$ ansible-playbook netdata.yml
+```
+
+#### Update with Vagrant
+
+To update the Netdata configuration with Vagrant, you just have to run provisioning part of the Vagrant file :
+
+```bash
+$ vagrant provision
+```
+
+#### Connect to Vagrant instance
+
+To be able to connect to a Vagrant instance, you should use the CLI which is configured to automatically use the default SSH key :
+
+```bash
+$ vagrant ssh netdata01
+```
+
 ## Author
 
 Member of Wikitops : https://www.wikitops.io/
+
+## Licence
+
+This project is licensed under the Apache License, Version 2.0. For the full text of the license, see the LICENSE file.
