@@ -1,0 +1,21 @@
+---
+
+- name: NETDATA DOCKER | Deployment
+  docker_container:
+    name: netdata
+    image: "{{ netdata_docker_image }}"
+    state: started
+    detach: yes
+    restart: yes
+    volumes:
+      - "/etc/passwd:/host/etc/passwd:ro"
+      - "/etc/group:/host/etc/group:ro"
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - "19999:19999"
+    security_opts:
+      - "apparmor:unconfined"
+    capabilities:
+      - sys_ptrace

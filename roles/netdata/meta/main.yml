@@ -1,0 +1,39 @@
+---
+
+dependencies:
+  - role: pip
+    vars:
+      pip_packages: ["docker"]
+    when: netdata_install_from == "docker"
+  - role: docker
+    vars:
+      docker_users: ["vagrant"]
+    when: netdata_install_from == "docker"
+
+galaxy_info:
+  author: wikitops
+  description: Netdata for Linux.
+  company: "Wikitops"
+  license: "license (BSD, MIT)"
+  min_ansible_version: 2.4
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+  - name: Fedora
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - jessie
+    - stretch
+  - name: Ubuntu
+    versions:
+    - trusty
+    - xenial
+    - bionic
+  galaxy_tags:
+    - netdata
+    - monitoring
+    - agent

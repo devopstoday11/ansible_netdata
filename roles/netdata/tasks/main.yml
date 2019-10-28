@@ -1,36 +1,4 @@
 ---
 
-- name: NETDATA | Manage Debian environment
-  import_tasks: debian.yml
-  when: ansible_os_family == 'Debian'
-
-- name: NETDATA | Manage Redhat environment
-  import_tasks: redhat.yml
-  when: ansible_os_family == 'RedHat'
-
-- name: NETDATA | Clone Git repository
-  git:
-    clone: true
-    update: false
-    repo: "{{ netdata_source_url }}"
-    dest: "{{ netdata_source_path }}"
-    version: "{{ netdata_version }}"
-    force: true
-
-- name: NETDATA | Install netdata
-  command: ./netdata-installer.sh --dont-wait --libs-are-really-here --dont-start-it --auto-update
-  args:
-    chdir: "{{ netdata_source_path }}"
-    creates: /etc/netdata
-  notify:
-    - Restart netdata
-
-- name: NETDATA | Configuration
-  template:
-    src: "etc/netdata/netdata.conf.j2"
-    dest: "/etc/netdata/netdata.conf"
-    owner: root
-    group: netdata
-    mode: 0644
-  notify:
-    - Restart netdata
+- name: NETDATA | Manage deployment
+  import_tasks: "{{ netdata_install_from }}.yml"
